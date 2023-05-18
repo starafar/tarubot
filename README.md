@@ -13,6 +13,8 @@ The following functionality is planned:
 - Automatic role grant to FC members vs. guests based on Lodestone FC membership data
 - And probably more.
 
+Have ideas? Open an enhancement issue and we can work on it. Or write it yourself (TypeScript), and submit a PR.
+
 ## Hosting the Bot
 
 TaruBot is intended to be self-hosted.
