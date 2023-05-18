@@ -34,7 +34,8 @@ You can even use the same server to host the bot and the database. Just make sur
 
 1. Make sure your hosting and database is configured.
 2. Clone/download the repo to the hosting server.
-3. In `dist/config`, copy or rename `local.yaml.template` to `local.yaml` and set the configuration appropriately.
+3. Copy `.env.example` to `.env` and configure your bot.
+   - If you're running the bot in a hosted environment, you'll probably ignore the .env file and set the environment variables via the platform.
 4. Install dependencies via `npm install` or `yarn install`.
    - If you don't plan to make changes to the bot, you can run `npm install --production` or `yarn install --prod` to avoid the development dependencies.
 5. Start the bot via `npm run start` or `yarn start`.
