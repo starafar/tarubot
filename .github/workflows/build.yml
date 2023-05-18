@@ -27,7 +27,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           token: ${{ secrets.ACTIONS_TOKEN }}
-          tag_name: ${{ github.sha }}
+          tag_name: release-${{ github.sha }}
           name: Release ${{ github.sha }}
           draft: false
           prerelease: false
