@@ -21,9 +21,12 @@ TaruBot is intended to be self-hosted.
 
 You'll need the following:
 
-- A service to host the bot. That could be a server (at home, VPS, application hosting platform, whatever.)
+- A service to host the bot.
+  - That could be a server (at home, VPS, application hosting platform, whatever.)
 - NodeJS v20
-- A database server. This could be anything that works with Sequelize, but I recommended MariaDB or PostgreSQL. You could also use SQLite to store the data locally, but I don't recommend it for a bot you plan on actually using.
+  - Older versions might work, but I haven't tested.
+- A database server. This could be anything that works with Sequelize, but I recommended MariaDB or PostgreSQL.
+  - You could also use SQLite to store the data locally, but I don't recommend it for a bot you plan on actually using.
 
 You can even use the same server to host the bot and the database. Just make sure that you're backing up the database regularly to avoid sadness.
 

@@ -7,6 +7,7 @@ import {
 import { globby } from "globby";
 import config from "config";
 import logger from "./logging.js";
+import { IChatInputCommand, IContextMenuCommand } from "./types.js";
 
 /**
  * Deploys the Discord application commands.
@@ -40,13 +41,18 @@ async function deploy() {
   }
 
   // Find command files using glob pattern
-  const commandFiles = await globby("./commands/**/*.js");
+  const chatCommandFiles = await globby("./commands/chat/**/*.js");
+  const contextMenuCommandFiles = await globby("./commands/context/**/*.js");
+
+  const commandFiles = [...chatCommandFiles, ...contextMenuCommandFiles];
 
   // Array to store the application commands
   const commands: RESTPostAPIApplicationCommandsJSONBody[] = await Promise.all(
     commandFiles.map(async (commandFile) => {
       logger.debug(`Loading ${commandFile}...`);
-      const command = await import(commandFile);
+      const command: IChatInputCommand | IContextMenuCommand = await import(
+        commandFile
+      );
       logger.debug(`Loaded command ${command.meta.name}.`);
       return command.meta.toJSON();
     })

@@ -1,5 +1,5 @@
 import { Client, Collection, GatewayIntentBits } from "discord.js";
-import { IChatInputCommand, IEvent } from "./types";
+import { IChatInputCommand, IContextMenuCommand, IEvent } from "./types";
 import { globby } from "globby";
 import config from "config";
 import logger from "./logging.js";
@@ -48,24 +48,49 @@ async function start() {
 
   // Create a collection to store chat input commands
   bot.chatInputCommands = new Collection<string, IChatInputCommand>();
+  bot.contextMenuCommands = new Collection<string, IContextMenuCommand>();
 
   // Load command files and event files using glob patterns
-  const [commandFiles, eventFiles] = await Promise.all([
-    globby("./commands/**/*.js"),
-    globby("./events/**/*.js"),
-  ]);
+  const [chatInputCommandFiles, contextMenuCommandFiles, eventFiles] =
+    await Promise.all([
+      globby("./commands/chat/**/*.js"),
+      globby("./commands/context/**/*.js"),
+      globby("./events/**/*.js"),
+    ]);
 
-  logger.debug(`Loading ${commandFiles.length} commands from ${commandFiles}.`);
+  logger.debug(
+    `Loading ${chatInputCommandFiles.length} chat input commands from ${chatInputCommandFiles}.`
+  );
+  logger.debug(
+    `Loading ${contextMenuCommandFiles.length} context menu commands from ${contextMenuCommandFiles}.`
+  );
   logger.debug(`Loading ${eventFiles.length} events from ${eventFiles}.`);
 
   // Load and register commands
-  const loadCommands = Promise.all(
-    commandFiles.map(async (commandFile) => {
-      logger.debug(`Loading ${commandFile}...`);
-      const command: IChatInputCommand = await import(commandFile);
-      logger.debug(`Loaded command ${command.meta.name}.`);
+  const loadChatInputCommands = Promise.all(
+    chatInputCommandFiles.map(async (chatInputCommandFile) => {
+      logger.debug(`Loading ${chatInputCommandFile}...`);
+      const chatInputCommand: IChatInputCommand = await import(
+        chatInputCommandFile
+      );
+      logger.debug(`Loaded command ${chatInputCommand.meta.name}.`);
 
-      bot.chatInputCommands.set(command.meta.name, command);
+      bot.chatInputCommands.set(chatInputCommand.meta.name, chatInputCommand);
+    })
+  );
+
+  const loadContextMenuCommands = Promise.all(
+    contextMenuCommandFiles.map(async (contextMenuCommandFile) => {
+      logger.debug(`Loading ${contextMenuCommandFile}...`);
+      const contextMenuCommand: IChatInputCommand = await import(
+        contextMenuCommandFile
+      );
+      logger.debug(`Loaded command ${contextMenuCommand.meta.name}.`);
+
+      bot.contextMenuCommands.set(
+        contextMenuCommand.meta.name,
+        contextMenuCommand
+      );
     })
   );
 
@@ -85,7 +110,11 @@ async function start() {
   );
 
   // Wait for commands and events to be loaded
-  await Promise.all([loadCommands, loadEvents]);
+  await Promise.all([
+    loadChatInputCommands,
+    loadContextMenuCommands,
+    loadEvents,
+  ]);
 
   // Log in to Discord using the API token from the configuration
   bot.login(config.get("discord.api.token"));
