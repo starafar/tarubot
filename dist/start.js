@@ -1,6 +1,6 @@
 import { Client, Collection, GatewayIntentBits } from "discord.js";
 import { globby } from "globby";
-import config from "config";
+import config from "./config.js";
 import logger from "./logging.js";
 /**
  * Starts the Discord bot.
@@ -8,21 +8,6 @@ import logger from "./logging.js";
  * and logs in using the provided API token.
  */
 async function start() {
-    // Array to store missing configuration entries
-    const missingConfigEntries = Array();
-    // Check if the API token is present in the configuration
-    if (!config.has("discord.api.token") || !config.get("discord.api.token")) {
-        missingConfigEntries.push("API token");
-    }
-    // Check if the application ID is present in the configuration
-    if (!config.has("discord.api.app_id") || !config.get("discord.api.app_id")) {
-        missingConfigEntries.push("application ID");
-    }
-    // If any configuration entries are missing, log an error and return
-    if (missingConfigEntries.length > 0) {
-        logger.crit(`The following config entries are missing: ${missingConfigEntries.join(", ")}`);
-        return;
-    }
     // Define the gateway intents for the bot
     const gatewayIntents = [
         GatewayIntentBits.Guilds,
@@ -39,9 +24,9 @@ async function start() {
     bot.contextMenuCommands = new Collection();
     // Load command files and event files using glob patterns
     const [chatInputCommandFiles, contextMenuCommandFiles, eventFiles] = await Promise.all([
-        globby("./commands/chat/**/*.js"),
-        globby("./commands/context/**/*.js"),
-        globby("./events/**/*.js"),
+        globby("./commands/chat/**/*.js", { cwd: "dist" }),
+        globby("./commands/context/**/*.js", { cwd: "dist" }),
+        globby("./events/**/*.js", { cwd: "dist" }),
     ]);
     logger.debug(`Loading ${chatInputCommandFiles.length} chat input commands from ${chatInputCommandFiles}.`);
     logger.debug(`Loading ${contextMenuCommandFiles.length} context menu commands from ${contextMenuCommandFiles}.`);
@@ -78,7 +63,7 @@ async function start() {
         loadEvents,
     ]);
     // Log in to Discord using the API token from the configuration
-    bot.login(config.get("discord.api.token"));
+    bot.login(config.discord.api.token);
 }
 // Export the start function as the default export of the module
 export default start;

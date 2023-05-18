@@ -1,7 +1,7 @@
 // Import necessary dependencies and modules
 import { REST, Routes, } from "discord.js";
 import { globby } from "globby";
-import config from "config";
+import config from "./config.js";
 import logger from "./logging.js";
 /**
  * Deploys the Discord application commands.
@@ -11,24 +11,13 @@ import logger from "./logging.js";
  * Then it registers the commands either globally or for specific guilds.
  */
 async function deploy() {
-    // Array to store missing configuration entries
-    const missingConfigEntries = Array();
-    // Check if the API token is present in the configuration
-    if (!config.has("discord.api.token") || !config.get("discord.api.token")) {
-        missingConfigEntries.push("API token");
-    }
-    // Check if the application ID is present in the configuration
-    if (!config.has("discord.api.app_id") || !config.get("discord.api.app_id")) {
-        missingConfigEntries.push("application ID");
-    }
-    // If any configuration entries are missing, log an error and return
-    if (missingConfigEntries.length > 0) {
-        logger.crit(`The following config entries are missing: ${missingConfigEntries.join(", ")}`);
-        return;
-    }
     // Find command files using glob pattern
-    const chatCommandFiles = await globby("./commands/chat/**/*.js");
-    const contextMenuCommandFiles = await globby("./commands/context/**/*.js");
+    const chatCommandFiles = await globby("./commands/chat/**/*.js", {
+        cwd: "dist",
+    });
+    const contextMenuCommandFiles = await globby("./commands/context/**/*.js", {
+        cwd: "dist",
+    });
     const commandFiles = [...chatCommandFiles, ...contextMenuCommandFiles];
     // Array to store the application commands
     const commands = await Promise.all(commandFiles.map(async (commandFile) => {
@@ -39,14 +28,14 @@ async function deploy() {
     }));
     logger.debug(`Loaded ${commands.length} commands.`);
     // Create a new REST instance and set the token
-    const rest = new REST().setToken(config.get("discord.api.token"));
+    const rest = new REST().setToken(config.discord.api.token);
     // Check if guild-specific commands are specified in the configuration
-    if (config.has("discord.guilds")) {
+    if (config.discord.guilds) {
         // Register application commands for each specified guild
-        for (const guildId of config.get("discord.guilds")) {
+        for (const guildId of config.discord.guilds) {
             logger.info(`Registering application commands for guild ${guildId}...`);
             // Send a PUT request to register the commands for the guild
-            await rest.put(Routes.applicationGuildCommands(config.get("discord.api.app_id"), guildId), {
+            await rest.put(Routes.applicationGuildCommands(config.discord.api.appID, guildId), {
                 body: commands,
             });
             logger.info(`Successfully registered application commands for guild ${guildId}.`);
@@ -56,7 +45,7 @@ async function deploy() {
         // Register application commands globally
         logger.info("Registering application commands...");
         // Send a PUT request to register the commands globally
-        await rest.put(Routes.applicationCommands(config.get("discord.api.app_id")), {
+        await rest.put(Routes.applicationCommands(config.discord.api.appID), {
             body: commands,
         });
         logger.info("Successfully registered application commands.");

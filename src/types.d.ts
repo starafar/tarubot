@@ -8,6 +8,7 @@ import {
   SlashCommandSubcommandBuilder,
   UserContextMenuCommandInteraction,
 } from "discord.js";
+import { Dialect } from "sequelize";
 
 // Define an interface for events
 interface IEvent {

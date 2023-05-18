@@ -1,3 +1,4 @@
+await import("./config.js");
 import start from "./start.js";
 import deploy from "./deploy.js";
 import logger from "./logging.js";

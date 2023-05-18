@@ -1,16 +1,23 @@
-import { Sequelize } from "sequelize";
-import config from "config";
+import { Dialect, Options, Sequelize } from "sequelize";
+import config from "../config.js";
 
-const dbConfig: any = config.get("db");
+const sequelizeOptions: Options = {
+  dialect: config.db.dialect as Dialect,
+};
+
+if (config.db.host) {
+  sequelizeOptions.host = config.db.host;
+}
+
+if (config.db.port) {
+  sequelizeOptions.port = config.db.port;
+}
 
 const db = new Sequelize(
-  dbConfig.database,
-  dbConfig.username,
-  dbConfig.password,
-  {
-    host: dbConfig.host,
-    dialect: dbConfig.dialect,
-  }
+  config.db.database,
+  config.db.username,
+  config.db.password,
+  sequelizeOptions
 );
 
 export default db;
