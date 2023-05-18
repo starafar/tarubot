@@ -1,0 +1,45 @@
+discord:
+  api:
+    # Discord API token for your bot.
+    # You can get this from the Discord Developer Portal.
+    # https://discord.com/developers/applications
+    token: null
+
+    # Discord application ID for your bot.
+    # You can get this from the Discord Developer Portal.
+    # https://discord.com/developers/applications
+    # NOTE: This must be a string. Enclose it in quotes.
+    app_id: ""
+
+  ## If you want to only register commands in certain guilds,
+  ## uncomment this section and enter the guild ID(s) here.
+  ## NOTE: This must be a list of strings.
+  ##       Each line must start with a dash (-) and a space.
+  ##       Each guild ID must be enclosed in quotes.
+  # guilds:
+  #   - ""
+  #   - ""
+  #   - ""
+
+## NOTE: If no log outputs are enabled, logs will be written to the console,
+##       and the log level will be set to "info".
+log:
+  console:
+    # To suppress logging to the console, set to false.
+    enabled: true
+
+    # Set to "debug" to see more detailed logging.
+    # If unset, the log level will be set to "info".
+    level: debug
+
+  file:
+    # To enable logging to a file, set to true.
+    enabled: true
+
+    # Path to the log file.
+    path: "logs/tarubot.log"
+
+    # Set to "debug" to see more detailed logging.
+    # If unset, the log level will be set to the console log level,
+    # or "info" if console logging is disabled.
+    level: info

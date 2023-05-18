@@ -1,0 +1,29 @@
+{
+  "name": "tarubot",
+  "license": "AGPL-3.0-or-later",
+  "type": "module",
+  "packageManager": "yarn@3.5.1",
+  "main": "dist/index.js",
+  "devDependencies": {
+    "@tsconfig/node20": "^1.0.1",
+    "@tsconfig/strictest": "^2.0.1",
+    "@types/config": "^3.3.0",
+    "@types/node": "^20.1.7",
+    "prettier": "^2.8.8",
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "config": "^3.3.9",
+    "discord.js": "^14.11.0",
+    "globby": "^13.1.4",
+    "js-yaml": "^4.1.0",
+    "sequelize": "^6.31.1",
+    "winston": "^3.8.2"
+  },
+  "scripts": {
+    "start": "cd dist && node . start",
+    "deploy": "cd dist && node . deploy",
+    "build": "tsc --build --pretty --verbose && node build.js",
+    "clean": "tsc --build --clean --pretty --verbose"
+  }
+}
