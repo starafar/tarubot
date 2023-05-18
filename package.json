@@ -2,7 +2,6 @@
   "name": "tarubot",
   "license": "AGPL-3.0-or-later",
   "type": "module",
-  "packageManager": "yarn@3.5.1",
   "main": "dist/index.js",
   "devDependencies": {
     "@tsconfig/node20": "^1.0.1",

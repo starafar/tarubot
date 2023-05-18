@@ -11,3 +11,4 @@
 .yarn/*
 dist/config/local.yaml
 dist/logs
+node_modules
