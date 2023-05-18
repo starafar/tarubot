@@ -1,8 +1,18 @@
 {
   "name": "tarubot",
+  "author": {
+    "name": "Justin Coffman",
+    "email": "jcoffman@techsecu.red",
+    "url": "https://github.com/starafar"
+  },
   "license": "AGPL-3.0-or-later",
   "type": "module",
   "main": "dist/index.js",
+  "homepage": "https://github.com/starafar/tarubot#README.md",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/starafar/tarubot.git"
+  },
   "packageManager": "yarn@3.5.1",
   "devDependencies": {
     "@tsconfig/node20": "^1.0.1",
@@ -21,9 +31,9 @@
     "winston": "^3.8.2"
   },
   "scripts": {
-    "start": "cd dist && node . start",
-    "deploy": "cd dist && node . deploy",
-    "build": "tsc --build --pretty --verbose && node build.js",
-    "clean": "tsc --build --clean --pretty --verbose"
+    "start": "node . start",
+    "deploy": "node . deploy",
+    "build": "tsc --build --pretty --verbose",
+    "clean": "tsc --build --clean --pretty"
   }
 }
