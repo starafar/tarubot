@@ -28,7 +28,7 @@ jobs:
         with:
           token: ${{ secrets.ACTIONS_TOKEN }}
           tag_name: ${{ github.sha }}
-          nane: Release ${{ github.sha }}
+          name: Release ${{ github.sha }}
           draft: false
           prerelease: false
 
