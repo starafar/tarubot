@@ -3,6 +3,7 @@
   "license": "AGPL-3.0-or-later",
   "type": "module",
   "main": "dist/index.js",
+  "packageManager": "yarn@3.5.1",
   "devDependencies": {
     "@tsconfig/node20": "^1.0.1",
     "@tsconfig/strictest": "^2.0.1",
