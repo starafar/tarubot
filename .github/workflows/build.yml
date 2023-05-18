@@ -24,12 +24,11 @@ jobs:
 
       - name: Create release
         id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+        uses: softprops/action-gh-release@v1
         with:
+          token: ${{ secrets.ACTIONS_TOKEN }}
           tag_name: ${{ github.sha }}
-          release_name: Release ${{ github.sha }}
+          nane: Release ${{ github.sha }}
           draft: false
           prerelease: false
 
