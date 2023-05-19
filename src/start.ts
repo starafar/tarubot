@@ -23,6 +23,8 @@ async function start() {
     intents: gatewayIntents,
   });
 
+  logger.info(`Loading events and commands...`);
+
   // Create a collection to store chat input commands
   bot.chatInputCommands = new Collection<string, IChatInputCommand>();
   bot.contextMenuCommands = new Collection<string, IContextMenuCommand>();
@@ -30,7 +32,7 @@ async function start() {
   // Load command files and event files using glob patterns
   const [chatInputCommandFiles, contextMenuCommandFiles, eventFiles] =
     await Promise.all([
-      globby("./commands/chat/**/*.js", { cwd: "dist" }),
+      globby("./commands/input/**/*.js", { cwd: "dist" }),
       globby("./commands/context/**/*.js", { cwd: "dist" }),
       globby("./events/**/*.js", { cwd: "dist" }),
     ]);
@@ -76,7 +78,9 @@ async function start() {
     eventFiles.map(async (eventFile) => {
       logger.debug(`Loading ${eventFile}...`);
       const event: IEvent = await import(eventFile);
-      logger.debug(`Loaded event ${event.name}.`);
+      logger.debug(
+        `Registered '${event.once ? "once" : "on"}' event ${event.name}.`
+      );
 
       if (event.once) {
         bot.once(event.name, (...args) => event.execute(...args));
@@ -92,6 +96,8 @@ async function start() {
     loadContextMenuCommands,
     loadEvents,
   ]);
+
+  logger.info("Done.");
 
   // Log in to Discord using the API token from the configuration
   bot.login(config.discord.api.token);

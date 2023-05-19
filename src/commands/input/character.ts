@@ -7,7 +7,7 @@ import {
   SlashCommandStringOption,
   AutocompleteInteraction,
 } from "discord.js";
-import logger from "../../../logging.js";
+import logger from "../../logging.js";
 
 const serverList: Array<string> = [
   "Adamantoise",

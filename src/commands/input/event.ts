@@ -5,7 +5,7 @@ import {
   SlashCommandSubcommandBuilder,
   SlashCommandBuilder,
 } from "discord.js";
-import logger from "../../../logging.js";
+import logger from "../../logging.js";
 
 // Define the command metadata using SlashCommandBuilder
 export const meta = new SlashCommandBuilder()
@@ -50,4 +50,13 @@ export const meta = new SlashCommandBuilder()
 // Define the execute function that runs when the command is executed
 export async function execute(interaction: ChatInputCommandInteraction) {
   logger.debug(`Interaction: ${JSON.stringify(interaction)}`);
+
+  switch (interaction.options.getSubcommand()) {
+    case "create":
+      await interaction.reply("Event created.");
+      break;
+    default:
+      await interaction.reply("Unknown subcommand.");
+      break;
+  }
 }

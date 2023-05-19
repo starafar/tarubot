@@ -18,7 +18,7 @@ import logger from "./logging.js";
  */
 async function deploy() {
   // Find command files using glob pattern
-  const chatCommandFiles = await globby("./commands/chat/**/*.js", {
+  const chatCommandFiles = await globby("./commands/input/**/*.js", {
     cwd: "dist",
   });
   const contextMenuCommandFiles = await globby("./commands/context/**/*.js", {

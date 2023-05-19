@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, } from "discord.js";
-import logger from "../../../logging.js";
+import logger from "../../logging.js";
 const serverList = [
     "Adamantoise",
     "Aegis",
