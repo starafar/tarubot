@@ -75,7 +75,7 @@ class FreeCompany(_db.Entity):
     name = Required(str, 20)
     tag = Required(str, 5)
     world = Required(str, 20)
-    gil_balance = Required(int, default=0)
+    gil_balance = Optional(int, default=0)
     last_updated = Optional(datetime, default=datetime.min)
     guilds = Set("Guild", reverse="fc")
 
