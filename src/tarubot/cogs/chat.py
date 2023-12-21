@@ -14,7 +14,7 @@ class ChatCommands(Cog):
     def __init__(self, bot: TaruBot):
         self.bot = bot
 
-    @slash_command(description="Mark this channel as GREEN.")
+    @slash_command(description="Flag this channel as GREEN.")
     async def green(self, interaction: Interaction):
         await interaction.response.defer(with_message=True, ephemeral=True)
 
@@ -70,7 +70,7 @@ class ChatCommands(Cog):
         #         ephemeral=True,
         #     )
 
-    @slash_command(description="Mark this channel as RED.")
+    @slash_command(description="Flag this channel as RED.")
     async def red(self, interaction: Interaction):
         await interaction.response.defer(with_message=True, ephemeral=True)
 
@@ -135,7 +135,7 @@ class ChatCommands(Cog):
 
             await officer_notifications_channel.send(embed=embed)
 
-    @slash_command(description="Mark this channel as YELLOW.")
+    @slash_command(description="Flag this channel as YELLOW.")
     async def yellow(self, interaction: Interaction):
         await interaction.response.defer(with_message=True, ephemeral=True)
 
