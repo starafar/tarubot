@@ -76,7 +76,7 @@ class FreeCompany(_db.Entity):
     tag = Required(str, 5)
     world = Required(str, 20)
     gil_balance = Required(int, default=0)
-    last_updated = Required(datetime, default=datetime.min)
+    last_updated = Optional(datetime, default=datetime.min)
     guilds = Set("Guild", reverse="fc")
 
     async def update_members(self):
