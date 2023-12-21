@@ -6,8 +6,8 @@ from src.tarubot.core import TaruBot
 from src.tarubot.models.db import Guild
 
 green_symbol = "\U00002705"
-yellow_symbol = "\U0001f7e1"
-red_symbol = "\U0001f6d1"
+yellow_symbol = "\U000026a0"
+red_symbol = "\U000026d4"
 
 
 class ChatCommands(Cog):
