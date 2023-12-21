@@ -1,9 +1,10 @@
+from datetime import datetime, timedelta
 from nextcord import Interaction, Role, slash_command, SlashOption, TextChannel
 from nextcord.ext.commands import Cog, has_guild_permissions
 from pony.orm import db_session
 from src.tarubot.api import lodestone
 from src.tarubot.core import TaruBot
-from src.tarubot.models.db import FreeCompany, Guild
+from src.tarubot.models.db import FreeCompany, GameCharacter, Guild
 
 
 class ConfigCommands(Cog):
@@ -57,6 +58,24 @@ class ConfigCommands(Cog):
                 )
 
             guild.fc = fc
+
+            if fc.last_updated is None or fc.last_updated < datetime.now() - timedelta(
+                hours=6
+            ):
+                fc_data = await lodestone.get_fc_members_by_id(fc.fc_id)
+
+                if not fc_data:
+                    return
+
+                fc.members.clear()
+
+                for member in fc_data:
+                    char = GameCharacter.get_or_create(member)
+
+                    if char:
+                        fc.members.add(char)
+
+                fc.last_updated = datetime.now()
 
             await interaction.send(
                 content=(

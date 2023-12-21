@@ -55,6 +55,25 @@ class MemberCommands(Cog):
                 fc = await FreeCompany.get_or_create(
                     await lodestone.get_fc_by_id(character_data.fc_id)
                 )
+
+                if (
+                    fc.last_updated is None
+                    or fc.last_updated < datetime.now() - timedelta(hours=6)
+                ):
+                    fc_data = await lodestone.get_fc_members_by_id(fc.fc_id)
+
+                    if not fc_data:
+                        return
+
+                    fc.members.clear()
+
+                    for member in fc_data:
+                        char = GameCharacter.get_or_create(member)
+
+                        if char:
+                            fc.members.add(char)
+
+                    fc.last_updated = datetime.now()
             else:
                 fc = None
 
@@ -201,6 +220,25 @@ class MemberCommands(Cog):
                 fc = await FreeCompany.get_or_create(
                     await lodestone.get_fc_by_id(character_data.fc_id)
                 )
+
+                if (
+                    fc.last_updated is None
+                    or fc.last_updated < datetime.now() - timedelta(hours=6)
+                ):
+                    fc_data = await lodestone.get_fc_members_by_id(fc.fc_id)
+
+                    if not fc_data:
+                        return
+
+                    fc.members.clear()
+
+                    for member in fc_data:
+                        char = GameCharacter.get_or_create(member)
+
+                        if char:
+                            fc.members.add(char)
+
+                    fc.last_updated = datetime.now()
             else:
                 fc = None
 
