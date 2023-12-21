@@ -315,7 +315,21 @@ class MemberCommands(Cog):
             if fc.last_updated is None or fc.last_updated < datetime.now() - timedelta(
                 hours=6
             ):
-                await fc.update_members()
+                fc_data = await lodestone.get_fc_members_by_id(fc.fc_id)
+
+                if not fc_data:
+                    return
+
+                fc.members.clear()
+
+                for member in fc_data:
+                    char = GameCharacter.get_or_create(member)
+
+                    if char:
+                        fc.members.add(char)
+
+                fc.last_updated = datetime.now()
+
                 return await interaction.send(
                     f"Updated membership for Free Company {fc.name} «{fc.tag}» on"
                     f" {fc.world}.",
