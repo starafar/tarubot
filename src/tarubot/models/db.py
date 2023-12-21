@@ -80,21 +80,20 @@ class FreeCompany(_db.Entity):
     guilds = Set("Guild", reverse="fc")
 
     async def update_members(self):
-        with db_session:
-            fc_data = await lodestone.get_fc_members_by_id(self.fc_id)
+        fc_data = await lodestone.get_fc_members_by_id(self.fc_id)
 
-            if not fc_data:
-                return
+        if not fc_data:
+            return
 
-            self.members.clear()
+        self.members.clear()
 
-            for member in fc_data:
-                char = GameCharacter.get_or_create(member)
+        for member in fc_data:
+            char = GameCharacter.get_or_create(member)
 
-                if char:
-                    self.members.add(char)
+            if char:
+                self.members.add(char)
 
-            self.last_updated = datetime.now()
+        self.last_updated = datetime.now()
 
     async def get_or_create(fc_data: Box):
         if not fc_data:
