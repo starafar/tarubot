@@ -6,7 +6,7 @@ settings = Dynaconf(
     merge_enabled=True,
     environments=True,
     env_switcher="TARUBOT_ENV",
-    env="development",
+    env="production",
 )
 
 # `envvar_prefix` = export envvars with `export DYNACONF_FOO=bar`.
