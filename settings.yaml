@@ -1,0 +1,18 @@
+default:
+  db:
+    driver: mysql
+    database: tarubot
+    host: localhost
+    port: 3306
+    user: tarubot
+
+development:
+  test_guild_ids:
+    - 905225566783963136
+
+  log:
+    level: debug
+
+production:
+  log:
+    level: info
