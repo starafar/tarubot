@@ -79,6 +79,23 @@ class FreeCompany(_db.Entity):
     last_updated = Optional(datetime, default=datetime.min)
     guilds = Set("Guild", reverse="fc")
 
+    async def update_members(self):
+        with db_session:
+            fc_data = await lodestone.get_fc_members_by_id(self.fc_id)
+
+            if not fc_data:
+                return
+
+            self.members.clear()
+
+            for member in fc_data:
+                char = GameCharacter.get_or_create(member)
+
+                if char:
+                    self.members.add(char)
+
+            self.last_updated = datetime.now()
+
     async def get_or_create(fc_data: Box):
         if not fc_data:
             return None
@@ -98,6 +115,11 @@ class FreeCompany(_db.Entity):
                 fc.name = fc_data.name
                 fc.tag = fc_data.tag
                 fc.world = fc_data.world
+
+            if fc.last_updated is None or fc.last_updated < datetime.now() - timedelta(
+                hours=6
+            ):
+                await fc.update_members()
 
             return fc
 
